@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: objects_in_database_s20
+    columns:
+      - name: gold
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [0, 1]
+                quote: false
+      - name: test
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [0, 1]
+                quote: false

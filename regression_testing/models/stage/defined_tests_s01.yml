@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: defined_tests_s01
+
+    columns:
+      - name: count
+        description: |
+          count of the number of nodes related to this test - should be 1 or 2.
+          this test may go away/be adjusted for types of test as there are at least
+          some cases where the value is not 1 or 2. Specifically the po_structure_consistency
+          case is 4 nodes, and if a AP invoice consistency test gets added that will
+          likely be 3 nodes. An alternative if we wanted to fix the rule to the 1 or 2
+          then we create a staging object that connects all the nodes and then have the
+          test just reference the staging object then it's only 1 node for the test.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: [1, 2, 4]
+                quote: false

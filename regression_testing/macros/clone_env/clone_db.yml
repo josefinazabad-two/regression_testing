@@ -1,0 +1,50 @@
+version: 2
+
+
+macros:
+  - name: clone_db
+    description: | 
+      Note this will likely be renamed to clone_env in the future.
+
+      * Clone dev db from source db.
+      * Will drop the <to_db> and <to_db>_land_raw then clone both from the respective from_db versions.
+      * Will change the permissions to match standards.
+      * Will run upgrade macro in case of changes to database
+
+      If to_db is set to acceptance then from db will automatically be set to prod and permissions set up
+      based on acceptance target (role_etl_acc).
+      
+      If to_db is set otherwise then the permissions will be based on a development target (role_dw_developer).
+
+      ```
+      dbt run-operation clone_db [ --args "{ from_db: <from-db>,to_db: <to-db> }" ]
+      ```
+
+    arguments:
+      - name: from_db
+        type: string
+        description: database to clone from (defaults to acceptance)
+      - name: to_db
+        type: string
+        description: database to clone to (defaults based on db in profiles.yml)
+
+
+  - name: clone_db2
+    description: |
+      Does the actual cloning and grants in specific case.
+      
+      Not generally intended for user, but just as a function in clone_db
+
+    arguments:
+      - name: from_db
+        type: string
+        description: database to clone from (defaults to acceptance)
+      - name: to_db
+        type: string
+        description: database to clone to (defaults based on db in profiles.yml)
+      - name: from_role
+        type: string
+        description: role that is owner of the from database
+      - name: to_role
+        type: string
+        description: role to be owner of the to database (note this role must have at least read access for from_db)

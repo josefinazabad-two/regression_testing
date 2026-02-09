@@ -1,0 +1,28 @@
+version: 2
+
+
+macros:
+  - name: test_regression
+    description: | 
+      * Will create views that do a comparison between current database and gold.
+      * Will create a table that contains hash_agg comparisons for each table in DBT_WAREHOUSE schema
+      * Test Environment is the current based on dbt_profile setting.
+      * Gold environment is acceptance for Test environment is dev, and PROD when test environment is acceptance.
+      * This is executed as a pre-hook on data_models/table_hash_compare.sql
+      * For a full regression run use transform/bin/regression.ps1
+
+      Note that there is a degree of technical debt in here.
+      Potentially in the future the target database for this should be moved out of the main database into one
+      that is not cloned as a part of clone operation seeing as the objects are specific to the test/gold database
+      meaning that cloning is not valid.
+
+    arguments:
+      - name: target_schema_name
+        type: string
+        description: database schema containing comparison objects
+      - name: target_table_name
+        type: string
+        description: defines the name of the table that contains hash comparisons
+      - name: verbose
+        type: boolean
+        description: provides additional output on status

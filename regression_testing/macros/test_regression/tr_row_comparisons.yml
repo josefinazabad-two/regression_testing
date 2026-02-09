@@ -1,0 +1,18 @@
+version: 2
+
+
+macros:
+  - name: tr_row_comparisons
+    description: | 
+      Sets up views to do row level comparison between test database and it's reference.
+      
+      Test ignores column named HSNZ_UPDATE_TIMESTAMP to provide improved results for persist tables which may be built at slightly different times.
+
+      Do not test regression schemas.
+
+  - name: tr_create_compare_object
+    description: |
+      This sets up the view for the row level comparison, called by tr_row_comparisons
+
+      Run Syntax:
+        dbt run-operation tr_row_comparisons --args "{ schema_name: 'DBT_PERSIST_EBS' }"
